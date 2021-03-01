@@ -3,7 +3,6 @@ const client = new Discord.Client();
 const priceCommand = "!price "
 const helpCommand = "!help"
 const commands = [priceCommand, helpCommand];
-const config = require('./config.json')
 const priceSearch = require('./src/baseFunctions/priceSearch').priceSearch
 
 client.on('ready', () => {
@@ -15,4 +14,4 @@ client.on('message', messageObject => {
     if (messageObject.content.startsWith(helpCommand)) return messageObject.reply(`Kullanabileceğiniz komutlar ${commands}`)
 });
 
-client.login(config.token);
+client.login(process.env.MelisKey);
