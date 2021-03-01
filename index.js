@@ -11,7 +11,7 @@ client.on('ready', () => {
 
 client.on('message', messageObject => {
     if (messageObject.content.startsWith(priceCommand)) return priceSearch(messageObject, priceCommand);
-    if (messageObject.content.startsWith(helpCommand)) return messageObject.reply(`Kullanabileceğiniz komutlar ${commands}`)
+    if (messageObject.content.startsWith(helpCommand)) return messageObject.reply(`Commands you can use are ${commands}`)
 });
 
 client.login(process.env.MelisKey);
