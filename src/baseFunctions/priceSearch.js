@@ -103,6 +103,7 @@ exports.priceSearch = function (messageObj, priceCommand) {
                 .addFields(fieldsArray)
             messageObj.reply(priceEmbed);
             
-        }).catch(e => console.log(e)).finally(() => messageObj.channel.stopTyping())
+        })
+        messageObj.channel.stopTyping()
     })
 }
