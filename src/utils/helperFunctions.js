@@ -34,6 +34,16 @@ exports.checkIfHasPriceCommand = function (string, priceCommand) {
     }
 }
 
+exports.checkIfHasTaxCommand = function (string, taxCommand) {
+    if (!string.startsWith(taxCommand)) {
+        return;
+    }
+    else {
+        string = string.replace(taxCommand, '')
+        return string
+    }
+}
+
 exports.checkIfEnchanted = function (string) {
     if (string[2] !== '.') {
         return string;
@@ -43,6 +53,41 @@ exports.checkIfEnchanted = function (string) {
         string = string + ` ${addedEnchant}`
 
         return string
+    }
+
+}
+
+exports.removeDotsFromNumbers = function (number) {
+    let numberWithoutDots = number.toString().split('.').join("");
+    return numberWithoutDots
+}
+
+exports.getSilverToFameRatio = function (string) {
+    let splitMessage = string.split(" ")
+    let checkIfHasRatio = string.includes('to')
+    let fameIndex = splitMessage.indexOf('to') - 1
+    let silverIndex = splitMessage.indexOf('to') + 1
+    let SilverToFameRatio;
+    if (checkIfHasRatio){
+        SilverToFameRatio = splitMessage[silverIndex] / splitMessage[fameIndex]
+        return SilverToFameRatio
+    } else {
+        return;
+    }
+}
+
+exports.removeSilverToFameRatio = function(string){
+    let splitMessage = string.split(" ")
+    let checkIfHasRatio = string.includes('to')
+    let ratio;
+    let fameIndex = splitMessage.indexOf('to') - 1
+    let silverIndex = splitMessage.indexOf('to') + 1
+    if (checkIfHasRatio){
+        ratio = ' ' + splitMessage[fameIndex] +' '+ splitMessage[splitMessage.indexOf('to')]+ ' ' + splitMessage[silverIndex]
+        string = string.replace(ratio, '')
+        return string        
+    }else {
+        return string;
     }
 
 }
