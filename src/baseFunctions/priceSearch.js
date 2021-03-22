@@ -8,6 +8,7 @@ const didyoumean = require('didyoumean')
 const { calculateSellTimeDiff, calculateBuyTimeDiff, saveSellPrices, divideNumbersWithDot } = require('../utils/helperFunctions');
 
 exports.priceSearch = function (messageObj, priceCommand) {
+    messageObj.channel.startTyping();
 
     let message = messageObj.content;
     message = helperFunctions.checkIfHasPriceCommand(message, priceCommand) // see if the message has price command and remove it
@@ -103,5 +104,6 @@ exports.priceSearch = function (messageObj, priceCommand) {
             messageObj.reply(priceEmbed);
             
         })
+        messageObj.channel.stopTyping()
     })
 }
