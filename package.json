@@ -12,6 +12,11 @@
     "axios": "^0.21.1",
     "didyoumean": "^1.2.1",
     "discord.js": "^12.5.1",
-    "moment": "^2.29.1"
+    "exceljs": "^4.2.0",
+    "moment": "^2.29.1",
+    "read-excel-file": "^5.0.0"
+  },
+  "devDependencies": {
+    "prettier": "^2.2.1"
   }
 }
