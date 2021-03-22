@@ -17,4 +17,4 @@ client.on('message', messageObject => {
     if (messageObject.content.startsWith(helpCommand)) return messageObject.reply(`Commands you can use are ${commands}`)
 });
 
-client.login("ODIzNTk3Mjk2MTcxMDg5OTc0.YFjIwQ.4kV899EZCWaSr4S_oXgz-lJujpM");
+client.login(process.env.MelisKey);
