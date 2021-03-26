@@ -8,7 +8,7 @@ const didyoumean = require('didyoumean')
 const { calculateSellTimeDiff, calculateBuyTimeDiff, saveSellPrices, divideNumbersWithDot } = require('../utils/helperFunctions');
 
 exports.priceSearch = function (messageObj, priceCommand) {
-    messageObj.channel.startTyping();
+
 
     let message = messageObj.content;
     message = helperFunctions.checkIfHasPriceCommand(message, priceCommand) // see if the message has price command and remove it
@@ -72,16 +72,16 @@ exports.priceSearch = function (messageObj, priceCommand) {
                 let buy_time_diff = calculateBuyTimeDiff(buy_price_max_date) // calculates time difference
                 if (sell_price_min > 0) {
                     helperFunctions.saveAllSellPriceInfo(sell_city_info, sell_price_info, sell_time_info, city, quality, divideNumbersWithDot(sell_price_min), sell_time_diff)
-                } 
+                }
 
                 if (buy_price_max > 0) {
                     helperFunctions.saveAllBuyPriceInfo(buy_city_info, buy_price_info, buy_time_info, city, quality, divideNumbersWithDot(buy_price_max), buy_time_diff)
                 }
             })
             let fieldsArray = [];
-            for(let i = 0; i <= 5; i++){
+            for (let i = 0; i <= 5; i++) {
                 let name, value = [], inline = true;
-                switch(i){
+                switch (i) {
                     case 0: name = 'City'; value = sell_city_info; break;
                     case 1: name = 'Sell Price'; value = sell_price_info; break;
                     case 2: name = 'Last Update'; value = sell_time_info; break;
@@ -89,21 +89,21 @@ exports.priceSearch = function (messageObj, priceCommand) {
                     case 4: name = 'Buy Price'; value = buy_price_info; break;
                     case 5: name = 'Last Update'; value = buy_time_info; break;
                 }
-                if(value.length > 0){
+                if (value.length > 0) {
                     fieldsArray.push(
-                        {name, value, inline}
+                        { name, value, inline }
                     )
                 }
             } // basically creates your price message
-            
+
             const priceEmbed = new Discord.MessageEmbed()
                 .setColor('#0099ff')
                 .setTitle(ItemName)
                 .setThumbnail("https://render.albiononline.com/v1/item/" + SearchedItem)
                 .addFields(fieldsArray)
             messageObj.reply(priceEmbed);
-            
+
         })
-        messageObj.channel.stopTyping()
+
     })
 }
