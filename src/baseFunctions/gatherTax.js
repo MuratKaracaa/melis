@@ -1,4 +1,4 @@
-const API = require("../apis");
+/*const API = require("../apis");
 const moment = require("moment");
 const homeDir = require("os").homedir();
 const desktopDir = `${homeDir}/Desktop`;
@@ -152,4 +152,4 @@ exports.gatherTax = function (messageObj, taxCommand) {
             });
         });
     });
-};
+};*/
