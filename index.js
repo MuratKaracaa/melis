@@ -3,7 +3,7 @@ const client = new Discord.Client();
 const priceCommand = "!price "
 const helpCommand = "!help"
 const taxCommand = '!gathertax '
-const commands = [priceCommand, helpCommand, taxCommand];
+const commands = [priceCommand, helpCommand];
 const priceSearch = require('./src/baseFunctions/priceSearch').priceSearch
 const gatherTax = require('./src/baseFunctions/gatherTax').gatherTax
 
@@ -12,9 +12,9 @@ client.on('ready', () => {
 });
 
 client.on('message', messageObject => {
-    if (messageObject.content.startsWith(priceCommand)) return priceSearch(messageObject, priceCommand);
-    if (messageObject.content.startsWith(taxCommand)) return gatherTax(messageObject, taxCommand);
-    if (messageObject.content.startsWith(helpCommand)) return messageObject.reply(`Commands you can use are ${commands}`)
+  if (messageObject.content.startsWith(priceCommand)) return priceSearch(messageObject, priceCommand);
+  //if (messageObject.content.startsWith(taxCommand)) return gatherTax(messageObject, taxCommand);
+  if (messageObject.content.startsWith(helpCommand)) return messageObject.reply(`Commands you can use are ${commands}`)
 });
 
 client.login(process.env.MelisKey);
