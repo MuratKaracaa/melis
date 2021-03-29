@@ -144,15 +144,17 @@ exports.gatherTax = function (messageObj, taxCommand) {
                             Object.values(JSON.parse(data)).forEach((value) => {
                                 workSheet.addRow([value.name, helperFunctions.divideNumbersWithDot(value.fame)]);
                             });
-                            workBook.xlsx.writeFile(excelPath);
+                            workBook.xlsx.writeFile(`${excelPath}/${guildName}.xls`);
+                            setTimeout(() => {
+                                messageObj.channel.send({
+                                    files: [`./excelFiles/${guildName}.xls`]
+                                });
+                            }, 5000)
                         });
                     } catch (err) {
                         console.log(error);
                     }
             });
-        });
-        messageObj.channel.send({
-            files: [`./excelFiles/${guildName}.xls`]
         });
     });
 };
