@@ -13,7 +13,7 @@ client.on('ready', () => {
 
 client.on('message', messageObject => {
   if (messageObject.content.startsWith(priceCommand)) return priceSearch(messageObject, priceCommand);
-  //if (messageObject.content.startsWith(taxCommand)) return gatherTax(messageObject, taxCommand);
+  if (messageObject.content.startsWith(taxCommand)) return gatherTax(messageObject, taxCommand);
   if (messageObject.content.startsWith(helpCommand)) return messageObject.reply(`Commands you can use are ${commands}`)
 });
 
