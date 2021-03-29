@@ -1,11 +1,12 @@
-/*const API = require("../apis");
+const API = require("../apis");
 const moment = require("moment");
-const homeDir = require("os").homedir();
-const desktopDir = `${homeDir}/Desktop`;
 const excel = require("exceljs");
 const fs = require("fs");
 const readExcel = require("read-excel-file/node");
 const helperFunctions = require("../utils").helperFunctions;
+const excelPath = `./excelFiles`;
+const jsonPath = `./jsonFiles`
+
 
 exports.gatherTax = function (messageObj, taxCommand) {
     let message = messageObj.content;
@@ -39,16 +40,16 @@ exports.gatherTax = function (messageObj, taxCommand) {
                 fameCollection.push(fameData);
             }
             var json = JSON.stringify(fameCollection);
-            fs.writeFile(`${homeDir}/${guildName}.json`, json, "utf8", function (err) {
+            fs.writeFile(`${jsonPath}/${guildName}.json`, json, "utf8", function (err) {
                 if (err) throw err;
                 console.log("complete");
             });
 
             let workBook = new excel.Workbook();
             let workSheet = workBook.addWorksheet(guildName);
-            let excelPath = desktopDir + `/${guildName}.xls`;
 
-            fs.stat(excelPath, function (err, stat) {
+
+            fs.stat(excelPath + `/${guildName}.xls`, function (err, stat) {
                 if (err == null) {
                     let previousGatherCollection = [];
                     let currentGatherCollection = [];
@@ -56,8 +57,7 @@ exports.gatherTax = function (messageObj, taxCommand) {
                         rows.forEach((row) => {
                             previousGatherCollection.push(row);
                         });
-                        console.log(previousGatherCollection);
-                        fs.readFile(`${homeDir}/${guildName}.json`, "utf8", function (err, data) {
+                        fs.readFile(`${jsonPath}/${guildName}.json`, "utf8", function (err, data) {
                             if (err) throw err;
 
                             let jsonObject = Object.values(JSON.parse(data));
@@ -139,7 +139,7 @@ exports.gatherTax = function (messageObj, taxCommand) {
                             { header: "Players", key: "player", width: 20 },
                             { header: date, key: "date", width: 20 },
                         ];
-                        fs.readFile(`${homeDir}/${guildName}.json`, "utf8", function (err, data) {
+                        fs.readFile(`${jsonPath}/${guildName}.json`, "utf8", function (err, data) {
                             if (err) throw err;
                             Object.values(JSON.parse(data)).forEach((value) => {
                                 workSheet.addRow([value.name, helperFunctions.divideNumbersWithDot(value.fame)]);
@@ -151,5 +151,8 @@ exports.gatherTax = function (messageObj, taxCommand) {
                     }
             });
         });
+        messageObj.channel.send({
+            files: [`./excelFiles/${guildName}.xls`]
+        });
     });
-};*/
+};
