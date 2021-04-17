@@ -5,7 +5,7 @@ const helpCommand = "!help"
 const taxCommand = '!gathertax '
 const commands = [priceCommand, helpCommand];
 const priceSearch = require('./src/baseFunctions/priceSearch').priceSearch
-const gatherTax = require('./src/baseFunctions/gatherTax').gatherTax
+const gatherTax = require('./src/baseFunctions/gatherTax2').gatherTax
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
