@@ -26,7 +26,7 @@ exports.gatherTax = function (messageObj, taxCommand) {
 
     message = helperFunctions.removeSilverToFameRatio(message);
     let fameCollection = [];
-    let names = [];
+    let taxedPlayers = [];
     let fameDiff = [];
     let taxAmountInfo = [];
     let fieldsArray = [];
@@ -99,11 +99,11 @@ exports.gatherTax = function (messageObj, taxCommand) {
                                 taxAmount
                             } = inf
                             if (taxAmount > 0 && previousFame != null){
-                                names.push(name)
+                                taxedPlayers.push(name)
                                 fameDiff.push(currentFame + ' - ' + previousFame + ' = ' + fameDifference)
                                 taxAmountInfo.push(taxAmount)
                             }
-                            names = [...new Set(names)]
+                            taxedPlayers = [...new Set(taxedPlayers)]
 
                         })
                         for (let i = 0; i <= 4; i++) {
@@ -111,7 +111,7 @@ exports.gatherTax = function (messageObj, taxCommand) {
                             switch (i) {
                                 case 0:
                                     name = 'Players';
-                                    value = names;
+                                    value = taxedPlayers;
                                     break;
                                 case 1:
                                     name = dates[1] + ' - ' + dates[0];
