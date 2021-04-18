@@ -88,8 +88,14 @@ exports.gatherTax = function (messageObj, taxCommand) {
                         currentFameData.map(a=>{
                             currentPlayers.push(a.name)
                         })
-                        newPlayers.push(currentPlayers.filter(player => !previousPlayers.includes(player)) || ' ')
-                        leavingPlayers.push(previousPlayers.filter(player => !currentPlayers.includes(player)) || ' ')
+                        newPlayers.push(currentPlayers.filter(player => !previousPlayers.includes(player)))
+                        leavingPlayers.push(previousPlayers.filter(player => !currentPlayers.includes(player)))
+                        if (newPlayers[0].length === 0) {
+                            newPlayers[0].push('None')
+                        }
+                        if (leavingPlayers[0].length === 0) {
+                            leavingPlayers[0].push('None')
+                        }
                         fameDataToShow.forEach(inf => {
                             const {
                                 name,
