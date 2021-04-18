@@ -136,7 +136,6 @@ exports.gatherTax = function (messageObj, taxCommand) {
                                 )
                             }
                         }
-                        console.log(fieldsArray)
 
                         const priceEmbed = new Discord.MessageEmbed()
                             .setColor('#0099ff')
