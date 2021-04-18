@@ -31,6 +31,8 @@ exports.gatherTax = function (messageObj, taxCommand) {
     let taxAmountInfo = [];
     let fieldsArray = [];
 
+    //messageObj.reply('Bi dur amk')
+
     API.getGuildId(message).then(res => {
         let guilds = res.data.guilds;
         let guildName = guilds[0].Name;
@@ -63,6 +65,10 @@ exports.gatherTax = function (messageObj, taxCommand) {
                     let data = Object.values(value.val())
                     let previousFameData;
                     let currentFameData;
+                    let previousPlayers;
+                    let currentPlayers;
+                    let newPlayers;
+                    let leavingPlayers;
                     let fameDataToShow;
                     let dates = Object.keys(value.val())
                     if (dates.length > 1) {
@@ -71,23 +77,36 @@ exports.gatherTax = function (messageObj, taxCommand) {
                         let previousFameDataMap = new Map(previousFameData.map(({name, fame}) => ([name, fame])));
                         fameDataToShow = currentFameData.map(obj => ({
                             name: obj.name,
-                            previousFame: previousFameDataMap.get(obj.name) || 0,
-                            currentFame: obj.fame
+                            previousFame: previousFameDataMap.get(obj.name) || null,
+                            currentFame: obj.fame,
+                            fameDifference : obj.fame - previousFameDataMap.get(obj.name),
+                            taxAmount : [obj.fame - previousFameDataMap.get(obj.name)] * silverToFameRatio
                         }));
+                        previousFameData.map(a=>{
+                            previousPlayers.push(a.name)
+                        })
+                        currentFameData.map(a=>{
+                            currentPlayers.push(a.name)
+                        })
+                        newPlayers = previousPlayers.find(player => currentPlayers.includes(player))
+                        leavingPlayers = previousPlayers.find(player => !currentPlayers.includes(player))
                         fameDataToShow.forEach(inf => {
                             const {
                                 name,
                                 previousFame,
                                 currentFame,
+                                fameDifference,
+                                taxAmount
                             } = inf
-                            names.push(name)
-                            let fameDiffFormula = currentFame - previousFame
-                            let taxAmount = fameDiffFormula * silverToFameRatio
-                            fameDiff.push(currentFame + ' - ' + previousFame + ' = ' + fameDiffFormula)
-                            taxAmountInfo.push(taxAmount)
+                            if (taxAmount > 0 && previousFame != null){
+                                names.push(name)
+                                fameDiff.push(fameDifference)
+                                taxAmountInfo.push(taxAmount)
+                            }
+                            names = [...new Set(names)]
 
                         })
-                        for (let i = 0; i <= 2; i++) {
+                        for (let i = 0; i <= 4; i++) {
                             let name, value = [], inline = true;
                             switch (i) {
                                 case 0:
@@ -95,12 +114,20 @@ exports.gatherTax = function (messageObj, taxCommand) {
                                     value = names;
                                     break;
                                 case 1:
-                                    name = `Fame Difference Between \n ${dates[0]} and ${dates[1]}`;
+                                    name = date[1] + ' - ' + date[0];
                                     value = fameDiff;
                                     break;
                                 case 2:
                                     name = 'Tax Amount';
                                     value = taxAmountInfo ;
+                                    break;
+                                case 3:
+                                    name = 'Leaving Players';
+                                    value = leavingPlayers ;
+                                    break;
+                                case 4:
+                                    name = 'New Players';
+                                    value = newPlayers ;
                                     break;
                             }
                             if (value.length > 0) {
