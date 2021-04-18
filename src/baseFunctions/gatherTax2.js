@@ -65,10 +65,10 @@ exports.gatherTax = function (messageObj, taxCommand) {
                     let data = Object.values(value.val())
                     let previousFameData;
                     let currentFameData;
-                    let previousPlayers;
-                    let currentPlayers;
-                    let newPlayers;
-                    let leavingPlayers;
+                    let previousPlayers = [];
+                    let currentPlayers = [];
+                    let newPlayers = [];
+                    let leavingPlayers = [];
                     let fameDataToShow;
                     let dates = Object.keys(value.val())
                     if (dates.length > 1) {
