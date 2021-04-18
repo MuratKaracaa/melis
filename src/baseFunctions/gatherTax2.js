@@ -107,7 +107,7 @@ exports.gatherTax = function (messageObj, taxCommand) {
                             if (taxAmount > 0 && previousFame != null){
                                 taxedPlayers.push(name)
                                 fameDiff.push(currentFame + ' - ' + previousFame + ' = ' + fameDifference)
-                                taxAmountInfo.push(taxAmount)
+                                taxAmountInfo.push(helperFunctions.nFormatter(taxAmount, 2))
                             }
                             taxedPlayers = [...new Set(taxedPlayers)]
 
