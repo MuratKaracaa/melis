@@ -8,7 +8,7 @@ const doc = new GoogleSpreadsheet(process.env.spreadSheetId);
 exports.registerOfficers = async function(){
     async function auth() {
         await doc.useServiceAccountAuth({
-            client_email: process.env.GOOGLE_PRIVATE_KEY,
+            client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
             private_key: process.env.GOOGLE_PRIVATE_KEY
         })
     }
