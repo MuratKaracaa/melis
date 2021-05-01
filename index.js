@@ -7,7 +7,7 @@ const officerRegistrationCommand = "!registerOfficers"
 const commands = [priceCommand, helpCommand, taxCommand];
 const priceSearch = require('./src/baseFunctions/priceSearch').priceSearch
 const gatherTax = require('./src/baseFunctions/gatherTax').gatherTax
-const registerOfficers = require('./src/adminFunctions/registerOfficers')
+const registerOfficers = require('./src/adminFunctions/registerOfficers').registerOfficers()
 const help = require('./src/baseFunctions/help').help
 
 client.on('ready', () => {
