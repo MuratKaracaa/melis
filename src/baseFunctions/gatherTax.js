@@ -1,160 +1,150 @@
-const API = require("../apis");
-const moment = require("moment");
-const excel = require("exceljs");
-const fs = require("fs");
-const readExcel = require("read-excel-file/node");
-const helperFunctions = require("../utils").helperFunctions;
-const excelPath = `./excelFiles`;
-const jsonPath = `./jsonFiles`
+const Discord = require('discord.js');
+const helperFunctions = require('../utils/helperFunctions')
+const axios = require('axios')
 
-
-exports.gatherTax = function (messageObj, taxCommand) {
-    let message = messageObj.content;
+exports.gatherTax = async function (messageObject, taxCommand) {
+    let message = messageObject.content;
+    let guildName = messageObject.attachments.first().name
+    guildName = guildName.replace(/\.[^/.]+$/, "")
     message = helperFunctions.checkIfHasTaxCommand(message, taxCommand); // see if the message has tax command and remove it
     let silverToFameRatio = helperFunctions.getSilverToFameRatio(message);
+    let bottomLimit = helperFunctions.getBottomLimit(message)
+    let inputData = (await axios.get(messageObject.attachments.first().url)).data.split('\n')
+    let fameStartIndex;
+    let paymentStartIndex;
+    let fameData = [];
+    let paymentData = [];
+    let paymentArray = [];
+    let fameDiffArray = []
+    inputData = helperFunctions.finalFormat(inputData)
+    let translations = []
+    translations['english'] = { 'rank': 'Rank', 'date': 'Date' }
+    translations['spanish'] = { 'rank': 'Rango', 'date': 'Fecha' }
+    translations['portuguese'] = { 'rank': 'Classificação', 'date': 'Data' }
+    translations['french'] = { 'rank': 'Rang', 'date': 'Date' }
+    translations['russian'] = { 'rank': 'Ранг', 'date': 'Дата' }
+    translations['polish'] = { 'rank': 'Ranga', 'date': 'Data' }
+    translations['asian'] = { 'rank': '级别', 'date': '日期' }
+    translations['asian2'] = { 'rank': '랭크', 'date': '날짜' }
 
-    message = helperFunctions.removeSilverToFameRatio(message);
+    inputData.forEach(element => {
+        let values = Object.values(translations)
+        let ranks = []
+        let dates = []
+        values.map(val => {
+            let rank = val.rank
+            let date = val.date
+            ranks.push(rank)
+            dates.push(date)
+        })
+        let rankFound = ranks.find(rank => rank === element[0])
 
-    API.getGuildId(message).then((res) => {
-        let guilds = res.data.guilds;
-        let guildName = guilds[0].Name;
-        let guildId = guilds[0].Id;
+        let dateFound = dates.find(date => date === element[0])
+        if (rankFound !== undefined) {
+            fameStartIndex = inputData.indexOf(element)
+        }
 
-        API.getGuildPlayers(guildId).then((res) => {
-            let players = res.data;
-            let names = [];
-            let date = moment().format("DD.MM.YY");
-            let gatherFame = [];
-            let fameCollection = [];
+        if (dateFound !== undefined) {
+            paymentStartIndex = inputData.indexOf(element)
+        }
+    })
 
-            players.forEach((player) => {
-                names.push(player.Name);
-                gatherFame.push(player.LifetimeStatistics.Gathering.All.Total);
-            });
+    fameData.push(inputData.slice(fameStartIndex + 1, paymentStartIndex))
+    paymentData.push(inputData.slice(paymentStartIndex + 1, inputData.length))
 
-            for (i = 0; i < names.length - 1; i++) {
-                let fameData = {
-                    name: names[i],
-                    fame: gatherFame[i],
-                };
-                fameCollection.push(fameData);
+
+
+    fameData[0].forEach(datum => {
+        let playerName = datum[1]
+        let fameDiffAmount = datum[3]
+        fameDiffArray.push({
+            name: playerName,
+            fameDiff: parseFloat(fameDiffAmount),
+            taxAmount: fameDiffAmount * silverToFameRatio
+        })
+        fameDiffArray = fameDiffArray.filter(function (element) { return element.name !== undefined && element.fameDiff !== undefined && element.taxAmount !== 'NaN' })
+    })
+
+
+    paymentData[0].forEach(datum => {
+        let playerName = datum[1]
+        let deposit = datum[3]
+        paymentArray.push({
+            name: playerName,
+            balance: parseFloat(deposit)
+        })
+    })
+
+    let paymentArrayToUse = []
+    paymentArray.forEach(function (a) {
+        if (!this[a.name]) {
+            this[a.name] = { name: a.name, balance: 0 };
+            paymentArrayToUse.push(this[a.name]);
+        }
+        this[a.name].balance += a.balance;
+    }, Object.create(null));
+
+    let paymentArrayToUseMapped = new Map(paymentArrayToUse.map(({ name, fame }) => ([name, fame])));
+    let mergedInfo = fameDiffArray.map(obj => ({
+        name: obj.name,
+        fameDiff: obj.fameDiff,
+        taxAmount: obj.taxAmount,
+        balance: paymentArrayToUseMapped.get(obj.name) || null
+    }))
+
+    let taxedPlayers = []
+    let taxAmo = []
+    let fieldsArray = []
+    mergedInfo.map(obj => {
+        const { name,
+            fameDiff,
+            taxAmount,
+            balance } = obj
+        let paymentStatus = balance - taxAmount
+        let limit = 0;
+
+        if (bottomLimit) {
+            if (bottomLimit.charAt(bottomLimit.length - 1) === 'K') {
+                bottomLimit = bottomLimit.replace('K', '')
+                bottomLimit += '000'
+            } else if (bottomLimit.charAt(bottomLimit.length - 1) === 'M') {
+                bottomLimit = bottomLimit.replace('M', '')
+                bottomLimit += '000000'
             }
-            var json = JSON.stringify(fameCollection);
-            fs.writeFile(`${jsonPath}/${guildName}.json`, json, "utf8", function (err) {
-                if (err) throw err;
-                console.log("complete");
-            });
 
-            let workBook = new excel.Workbook();
-            let workSheet = workBook.addWorksheet(guildName);
+            limit = -Math.abs(bottomLimit)
+        }
 
 
-            fs.stat(excelPath + `/${guildName}.xls`, function (err, stat) {
-                if (err == null) {
-                    let previousGatherCollection = [];
-                    let currentGatherCollection = [];
-                    readExcel(excelPath).then((rows) => {
-                        rows.forEach((row) => {
-                            previousGatherCollection.push(row);
-                        });
-                        fs.readFile(`${jsonPath}/${guildName}.json`, "utf8", function (err, data) {
-                            if (err) throw err;
+        if (paymentStatus < limit) {
+            taxedPlayers.push(name)
+            taxAmo.push(helperFunctions.nFormatter(Math.abs(paymentStatus)))
+        }
+    })
 
-                            let jsonObject = Object.values(JSON.parse(data));
+    for (let i = 0; i < 2; i++) {
+        let name, value, inline = true;
+        switch (i) {
+            case 0:
+                name = 'Players';
+                value = taxedPlayers;
+                break;
+            case 1:
+                name = 'Tax Debt';
+                value = taxAmo;
+                break;
+        }
+        if (value.length > 0) {
+            fieldsArray.push({ name, value, inline })
+        }
+    }
 
-                            let previousDate = previousGatherCollection[0][1];
-                            jsonObject.forEach((object) => {
-                                let currentPlayerName = object.name;
-                                let playerExists = previousGatherCollection.find((previousData) => previousData[0] == currentPlayerName);
-                                let playerData;
+    const embedMessage = new Discord.MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle(`Tax Debts of ${guildName}`)
+        .addFields(fieldsArray)
+        .setTimestamp()
 
-                                if (playerExists) {
-                                    playerData = {
-                                        name: object.name,
-                                        previousFame: helperFunctions.removeDotsFromNumbers(playerExists[1]),
-                                        newFame: helperFunctions.removeDotsFromNumbers(object.fame),
-                                    };
-                                } else {
-                                    playerData = {
-                                        name: object.name,
-                                        newFame: helperFunctions.removeDotsFromNumbers(object.fame),
-                                    };
-                                }
+    messageObject.reply(embedMessage)
+}
 
-                                currentGatherCollection.push(playerData);
-                            });
-
-                            workSheet.columns = [
-                                {
-                                    header: "Players",
-                                    key: "player",
-                                    width: 20,
-                                },
-                                {
-                                    header: previousDate,
-                                    key: "previousFame",
-                                    width: 20,
-                                },
-                                {
-                                    header: date,
-                                    key: "currentFame",
-                                    width: 20,
-                                },
-                                {
-                                    header: "Fame Difference",
-                                    key: "fameDiff",
-                                    width: 20,
-                                },
-                                {
-                                    header: "Tax Amount",
-                                    key: "taxAmount",
-                                    width: 20,
-                                },
-                            ];
-
-                            let newJson = JSON.stringify(currentGatherCollection);
-                            fs.writeFile(`${homeDir}/${guildName} current.json`, newJson, "utf8", function (err) {
-                                if (err) throw err;
-                                console.log("complete");
-
-                                fs.readFile(`${homeDir}/${guildName} current.json`, "utf8", function (err, data) {
-                                    if (err) throw err;
-                                    Object.values(JSON.parse(data)).forEach((value) => {
-                                        workSheet.addRow([
-                                            value.name,
-                                            helperFunctions.divideNumbersWithDot(value.previousFame),
-                                            helperFunctions.divideNumbersWithDot(value.newFame),
-                                            helperFunctions.divideNumbersWithDot(value.newFame - value.previousFame),
-                                            helperFunctions.divideNumbersWithDot([value.newFame - value.previousFame] * silverToFameRatio),
-                                        ]);
-                                    });
-                                    workBook.xlsx.writeFile(excelPath);
-                                });
-                            });
-                        });
-                    });
-                } else if (err.code === "ENOENT")
-                    try {
-                        workSheet.columns = [
-                            { header: "Players", key: "player", width: 20 },
-                            { header: date, key: "date", width: 20 },
-                        ];
-                        fs.readFile(`${jsonPath}/${guildName}.json`, "utf8", function (err, data) {
-                            if (err) throw err;
-                            Object.values(JSON.parse(data)).forEach((value) => {
-                                workSheet.addRow([value.name, helperFunctions.divideNumbersWithDot(value.fame)]);
-                            });
-                            workBook.xlsx.writeFile(`${excelPath}/${guildName}.xls`);
-                            setTimeout(() => {
-                                messageObj.channel.send({
-                                    files: [`./excelFiles/${guildName}.xls`]
-                                });
-                            }, 5000)
-                        });
-                    } catch (err) {
-                        console.log(error);
-                    }
-            });
-        });
-    });
-};

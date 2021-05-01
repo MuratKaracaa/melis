@@ -3,18 +3,24 @@ const client = new Discord.Client();
 const priceCommand = "!price "
 const helpCommand = "!help"
 const taxCommand = '!gathertax '
-const commands = [priceCommand, helpCommand];
+const officerRegistrationCommand = "!registerOfficers"
+const commands = [priceCommand, helpCommand, taxCommand];
 const priceSearch = require('./src/baseFunctions/priceSearch').priceSearch
-const gatherTax = require('./src/baseFunctions/gatherTax2').gatherTax
+const gatherTax = require('./src/baseFunctions/gatherTax').gatherTax
+const registerOfficers = require('./src/adminFunctions/registerOfficers')
+const help = require('./src/baseFunctions/help').help
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
 client.on('message', messageObject => {
+  let authorTag = messageObject.author.username + '#' + messageObject.author.discriminator
+  let isAdmin = authorTag === process.env.adminTag
   if (messageObject.content.startsWith(priceCommand)) return priceSearch(messageObject, priceCommand);
   if (messageObject.content.startsWith(taxCommand)) return gatherTax(messageObject, taxCommand);
-  if (messageObject.content.startsWith(helpCommand)) return messageObject.reply(`Commands you can use are ${commands}`)
+  if (messageObject.content.startsWith(officerRegistrationCommand) && isAdmin) return registerOfficers;
+  if (messageObject.content.startsWith(helpCommand)) return help(messageObject)
 });
 
 client.login(process.env.MelisKey);

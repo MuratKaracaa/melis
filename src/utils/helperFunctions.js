@@ -1,4 +1,5 @@
 const moment = require('moment')
+const firebase = require('firebase')
 
 exports.replaceString = function (string, searchString, replaceString) {
     return string.replace(searchString, replaceString);
@@ -10,6 +11,10 @@ exports.calculateSellTimeDiff = function (LastSellTime) {
 
 exports.calculateBuyTimeDiff = function (LastBuyTime) {
     return moment(LastBuyTime).fromNow()
+}
+
+exports.getTimeDifference = function (currentTime, lastTime) {
+    return moment.duration(currentTime.diff(lastTime));
 }
 
 exports.divideNumbersWithDot = function (number) {
@@ -68,7 +73,7 @@ exports.getSilverToFameRatio = function (string) {
     let fameIndex = splitMessage.indexOf('to') - 1
     let silverIndex = splitMessage.indexOf('to') + 1
     let SilverToFameRatio;
-    if (checkIfHasRatio){
+    if (checkIfHasRatio) {
         SilverToFameRatio = splitMessage[silverIndex] / splitMessage[fameIndex]
         return SilverToFameRatio
     } else {
@@ -76,20 +81,40 @@ exports.getSilverToFameRatio = function (string) {
     }
 }
 
-exports.removeSilverToFameRatio = function(string){
+exports.removeSilverToFameRatio = function (string) {
     let splitMessage = string.split(" ")
     let checkIfHasRatio = string.includes('to')
     let ratio;
     let fameIndex = splitMessage.indexOf('to') - 1
     let silverIndex = splitMessage.indexOf('to') + 1
-    if (checkIfHasRatio){
-        ratio = ' ' + splitMessage[fameIndex] +' '+ splitMessage[splitMessage.indexOf('to')]+ ' ' + splitMessage[silverIndex]
+    if (checkIfHasRatio) {
+        ratio = ' ' + splitMessage[fameIndex] + ' ' + splitMessage[splitMessage.indexOf('to')] + ' ' + splitMessage[silverIndex]
         string = string.replace(ratio, '')
-        return string        
-    }else {
+        return string
+    } else {
         return string;
     }
 
+}
+
+exports.getBottomLimit = function (string){
+    let splitMessage = string.toUpperCase().split(" ")
+    let HasLimit;
+    if (string.toUpperCase().includes('K')){
+        HasLimit = true;
+    } else if (string.toUpperCase().includes('M')){
+        HasLimit = true;
+    } else {
+        HasLimit = false;
+    }
+    let limitIndex = splitMessage.indexOf(splitMessage[splitMessage.length-1])
+    let limit;
+    if (HasLimit){
+        limit = splitMessage[limitIndex]
+        return limit
+    } else {
+        return;
+    }
 }
 
 exports.nFormatter = function (num, digits) {
@@ -110,4 +135,46 @@ exports.nFormatter = function (num, digits) {
         }
     }
     return (num / si[i].value).toFixed(digits).replace(rx, "$1") + si[i].symbol;
+}
+
+removeMarks = function(string){
+    string = string.replace(/['"]+/g, '')
+    string = string.replace('\r', '')
+    return string
+}
+
+parseByTag = function(array){
+    array = array.split('\t')
+    let newArray = []
+    array.forEach(string => {
+        string = removeMarks(string)
+        newArray.push(string)
+    })
+    return newArray
+}
+
+exports.finalFormat = function(array){
+    let newArray = [];
+    array.forEach(arr => {
+        arr = parseByTag(arr)
+        newArray.push(arr)
+    })
+    return newArray
+}
+
+exports.initFireBase = function (){
+    let config = {
+        apiKey: process.env.apiKey,
+        authDomain: process.env.authDomain,
+        databaseURL: process.env.databaseURL,
+        projectId: process.env.projectId,
+        storageBucket: process.env.storageBucket,
+        messagingSenderId: process.env.messagingSenderId,
+        appId: process.env.appId,
+        measurementId: process.env.measurementId
+    }
+
+    if (firebase.app.length === 0){
+        return firebase.initializeApp(config)
+    }
 }
