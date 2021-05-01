@@ -20,7 +20,7 @@ exports.help = async function(messageObject){
                 break;
             case 2:
                 name =taxCommand;
-                value = 'Upload a .txt file containing the fame logs on top and deposit logs on the bottom, input a fame to silver ratio (e.g. 100 to 200) along with a minimum tax display amount ( e.g. 100k so you do not see 6k tax debts), registerin guild members to send automated messages are in development!';
+                value = 'Upload a .txt file containing the fame logs on top and deposit logs on the bottom, input a fame to silver ratio (e.g. 100 to 200) along with a minimum tax display amount ( e.g. 100k so you do not see 6k tax debts), \n e.g !gathertax 100 to 200 100k \n registering guild members to send automated messages are in development!';
                 break;
         }
         fieldsArray.push({name,value})
