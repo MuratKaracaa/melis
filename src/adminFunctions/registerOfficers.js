@@ -8,6 +8,14 @@ const doc = new GoogleSpreadsheet(process.env.spreadSheetId);
 exports.registerOfficers = async function(){
     async function auth() {
         await doc.useServiceAccountAuth({
+            type: "service_account",
+            project_id : process.env.projectId,
+            private_key_id : process.env.private_key_id,
+            client_id: process.env.client_id,
+            auth_url: 'https://accounts.google.com/o/oauth2/auth',
+            token_uri: "https://oauth2.googleapis.com/token",
+            auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs",
+            client_x509_cert_url: process.env.cert_url,
             client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
             private_key: process.env.GOOGLE_PRIVATE_KEY
         })
