@@ -8,22 +8,22 @@ let descriptions = ['lets you know what commands you can use', 'finds the prices
 let fieldsArray = []
 exports.help = async function(messageObject){
     for (let i =0; i<3; i++){
-        let name,value, inline = true;
+        let name,value;
         switch (i){
             case 0:
-                name = 'Commands';
-                value = commands;
+                name = helpCommand;
+                value = 'Use this to see available commands';
                 break;
             case 1:
-                name ='Parameters';
-                value = parameters;
+                name =priceCommand;
+                value = "E.g. t8.2/uncommon slate, find the items' price easily";
                 break;
             case 2:
-                name ='Description';
-                value = descriptions;
+                name =taxCommand;
+                value = 'Upload a .txt file containing the fame logs on top and deposit logs on the bottom, input a fame to silver ratio (e.g. 100 to 200) along with a minimum tax display amount ( e.g. 100k so you do not see 6k tax debts), registerin guild members to send automated messages are in development!';
                 break;
         }
-        fieldsArray.push({name,value,inline})
+        fieldsArray.push({name,value})
     }
     const embedMessage = new Discord.MessageEmbed()
         .setColor('#0099ff')
