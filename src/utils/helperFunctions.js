@@ -174,7 +174,7 @@ exports.initFireBase = function (){
         measurementId: process.env.measurementId
     }
 
-    if (firebase.app.length === 0){
+    if (firebase.apps.length === 0){
         return firebase.initializeApp(config)
     }
 }
