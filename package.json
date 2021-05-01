@@ -10,17 +10,11 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
-    "circular-json": "^0.5.9",
     "didyoumean": "^1.2.1",
     "discord.js": "^12.5.1",
-    "exceljs": "^4.2.0",
     "firebase": "^8.3.1",
-    "firebase-admin": "^9.6.0",
     "google-spreadsheet": "^3.1.15",
-    "googleapis": "^71.0.0",
-    "moment": "^2.29.1",
-    "read-excel-file": "^5.0.0",
-    "uuid-v4": "^0.1.0"
+    "moment": "^2.29.1"
   },
   "devDependencies": {
     "prettier": "^2.2.1"
