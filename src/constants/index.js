@@ -19,17 +19,3 @@ exports.qualityList = function () {
     }
     return qualityList
 }
-
-// Bu kısmı exportlayamadım, reference edemiyorum
-
-exports.priceConstants = function(){
-    const {
-        sell_price_min,
-        sell_price_min_date,
-        buy_price_max_date,
-        buy_price_max,
-        city
-    } = price
-
-    return price
-}

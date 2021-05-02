@@ -4,10 +4,9 @@ const priceCommand = "!price "
 const helpCommand = "!help"
 const taxCommand = '!gathertax '
 const officerRegistrationCommand = "!registerOfficers"
-const commands = [priceCommand, helpCommand, taxCommand];
 const priceSearch = require('./src/baseFunctions/priceSearch').priceSearch
 const gatherTax = require('./src/baseFunctions/gatherTax').gatherTax
-const registerOfficers = require('./src/adminFunctions/registerOfficers').registerOfficers()
+const registerOfficers = require('./src/adminFunctions/registerOfficers').registerOfficers
 const help = require('./src/baseFunctions/help').help
 
 client.on('ready', () => {
@@ -15,11 +14,9 @@ client.on('ready', () => {
 });
 
 client.on('message', messageObject => {
-  let authorTag = messageObject.author.username + '#' + messageObject.author.discriminator
-  let isAdmin = authorTag === process.env.adminTag
   if (messageObject.content.startsWith(priceCommand)) return priceSearch(messageObject, priceCommand);
   if (messageObject.content.startsWith(taxCommand)) return gatherTax(messageObject, taxCommand);
-  if (messageObject.content.startsWith(officerRegistrationCommand) && isAdmin) return registerOfficers;
+  if (messageObject.content.startsWith(officerRegistrationCommand)) return registerOfficers(messageObject);
   if (messageObject.content.startsWith(helpCommand)) return help(messageObject)
 });
 
