@@ -2,12 +2,12 @@ const { GoogleSpreadsheet } = require('google-spreadsheet');
 const { helperFunctions } = require('../utils');
 const app = helperFunctions.initFireBase()
 const db = app.database()
-let private_key = process.env.GOOGLE_API_KEY
+let private_key = process.env.GOOGLE_PRIVATE_KEY
 const creds = {
     type: process.env.type,
     project_id: process.env.projectId,
     private_key_id: process.env.private_key_id,
-    private_key: private_key.replace(process.env.GOOGLE_API_KEY, new RegExp("\\\\n", "\g"), "\n"),
+    private_key: private_key.replace(process.env.GOOGLE_PRIVATE_KEY, new RegExp("\\\\n", "\g"), "\n"),
     client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
     client_id: process.env.client_id,
     auth_uri: process.env.auth_uri,
