@@ -2,7 +2,7 @@
 # Melis - Albion Assistant
 
 
-[![invitation](https://png.pngitem.com/pimgs/s/513-5130232_discord-png-icon-transparent-background-discord-logo-transparent.png)](https://discord.com/api/oauth2/authorize?client_id=795330342856818719&permissions=2148005952&scope=bot) 
+[![invitation](https://cdn2.iconfinder.com/data/icons/gaming-platforms-squircle/250/discord_squircle-128.png)](https://discord.com/api/oauth2/authorize?client_id=795330342856818719&permissions=2148005952&scope=bot) 
 
 Melis is here to do what you want to do fast.
 
