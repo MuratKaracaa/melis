@@ -15,7 +15,7 @@ Melis is here to do what you want done fast.
 ## Features
 
 - Fast and Easy price search with typo fixes e.g. t8.3 bltcst 
-- Figure out who has tax debts based on logs provided and soon automatically send messages to them
+- Figure out who has tax debts based on logs provided and (in production) automatically send messages to them
 - (In production) Matchmaking system for Hardcore Expeditions (Going to start taking registrations soon)
 
 ## Commands and Parameters
