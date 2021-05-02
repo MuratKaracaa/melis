@@ -31,7 +31,7 @@ Melis is here to do what you want done fast.
 
 ![depositlog](https://forum.albiononline.com/index.php/Attachment/24673-Ekran-G%C3%B6r%C3%BCnt%C3%BCs%C3%BC-62-png/?thumbnail=1)
 
-![txtfile](https://forum.albiononline.com/index.php/Attachment/24671-Ekran-G%C3%B6r%C3%BCnt%C3%BCs%C3%BC-64-png/?thumbnail=1)
+![txtfile](https://forum.albiononline.com/index.php/Attachment/24671-Ekran-G%C3%B6r%C3%BCnt%C3%BCs%C3%BC-64-png/)
 
 ## License
 
