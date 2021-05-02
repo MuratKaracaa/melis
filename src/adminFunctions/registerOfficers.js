@@ -2,7 +2,7 @@ const { GoogleSpreadsheet } = require('google-spreadsheet');
 const { helperFunctions } = require('../utils');
 const app = helperFunctions.initFireBase()
 const db = app.database()
-let private_key = process.env.private_key
+let private_key = process.env.GOOGLE_API_KEY
 const creds = {
     type: process.env.type,
     project_id: process.env.projectId,
