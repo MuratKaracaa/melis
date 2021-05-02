@@ -7,7 +7,7 @@ const creds = {
     type: process.env.type,
     project_id: process.env.projectId,
     private_key_id: process.env.private_key_id,
-    private_key: private_key.replace(/\\n/g, '\n')
+    private_key: private_key.replace(/\\n/g, '\n'),
     client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
     client_id: process.env.client_id,
     auth_uri: process.env.auth_uri,
