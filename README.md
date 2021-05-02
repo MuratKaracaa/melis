@@ -22,10 +22,15 @@ Melis is here to do what you want to do fast.
 ## Guide for GatherTax
 
 - Below is an example on how to get your taxes calculated and check for payments
+
 ![message](https://forum.albiononline.com/index.php/Attachment/24674-Ekran-G%C3%B6r%C3%BCnt%C3%BCs%C3%BC-65-png/?thumbnail=1)
+
 - Below are the images showing how to create the .txt file
+
 ![famelog](https://forum.albiononline.com/index.php/Attachment/24672-Ekran-G%C3%B6r%C3%BCnt%C3%BCs%C3%BC-61-png/?thumbnail=1)
+
 ![depositlog](https://forum.albiononline.com/index.php/Attachment/24673-Ekran-G%C3%B6r%C3%BCnt%C3%BCs%C3%BC-62-png/?thumbnail=1)
+
 ![txtfile](https://forum.albiononline.com/index.php/Attachment/24671-Ekran-G%C3%B6r%C3%BCnt%C3%BCs%C3%BC-64-png/?thumbnail=1)
 
 ## License
