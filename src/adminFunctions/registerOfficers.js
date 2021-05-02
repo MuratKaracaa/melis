@@ -15,7 +15,6 @@ const creds = {
     auth_provider_x509_cert_url: process.env.auth_provider_x509_cert_url,
     client_x509_cert_url: process.env.client_x509_cert_url
 }
-console.log(creds)
 
 
 const doc = new GoogleSpreadsheet(process.env.spreadSheetId);
