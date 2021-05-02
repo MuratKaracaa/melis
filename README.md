@@ -19,7 +19,7 @@ Melis is here to do what you want done fast.
 - (In production) Matchmaking system for Hardcore Expeditions (Going to start taking registrations soon)
 
 ## Commands and Parameters
-- !price <tier with or without enchant level> <item name> e.g. !price t5.2 heavy mace
+- !price < tier with or without enchant level > < item name > e.g. !price t5.2 heavy mace
 - !gathertax <uploaded .txt file containing the gather fame logs and deposit logs in order> <fame to silver ratio (as comment)> <(optional) min tax amount (as comment)> e.g.!gathertax 100 to 200 100k
 
 ## Guide for GatherTax
