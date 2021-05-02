@@ -16,7 +16,7 @@ exports.help = async function(messageObject){
                 break;
             case 1:
                 name =priceCommand;
-                value = "E.g. t8.2/uncommon slate, find the items' price easily";
+                value = "E.g. t8.2 boltcasters/uncommon slate, find the items' price easily, also fixes typos as long as it has the right number of words, it fixes bltcstr but fails at shadow caller cuz it's supposed to be 1 word";
                 break;
             case 2:
                 name =taxCommand;
