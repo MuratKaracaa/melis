@@ -1,0 +1,33 @@
+
+# Melis - Albion Assistant
+
+
+[![Invitation](data:image/png;base64,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)](https://discord.com/api/oauth2/authorize?client_id=795330342856818719&permissions=2148005952&scope=bot) 
+
+Melis is here to do what you want to do fast.
+
+![Price](https://forum.albiononline.com/index.php/Attachment/24667-Ekran-G%C3%B6r%C3%BCnt%C3%BCs%C3%BC-57-png/?thumbnail=1) 
+![Price](https://forum.albiononline.com/index.php/Attachment/24668-Ekran-G%C3%B6r%C3%BCnt%C3%BCs%C3%BC-58-png/?thumbnail=1)
+![Tax](https://forum.albiononline.com/index.php/Attachment/24670-Ekran-G%C3%B6r%C3%BCnt%C3%BCs%C3%BC-59-png/?thumbnail=1)
+## Features
+
+- Fast and Easy price search with typo fixes e.g. t8.3 bltcst 
+- Figure out who has tax debts based on logs provided and soon automatically send messages to them
+- (In production) Matchmaking system for Hardcore Expeditions (Going to start taking registrations soon)
+
+## Commands and Parameters
+- !price <tier with or without enchant level> <item name> e.g. !price t5.2 heavy mace
+- !gathertax <uploaded .txt file containing the gather fame logs and deposit logs in order> <fame to silver ratio (as comment)> <(optional) min tax amount (as comment)> e.g.!gathertax 100 to 200 100k
+
+## Guide for GatherTax
+
+- Below is an example on how to get your taxes calculated and check for payments
+![message](https://forum.albiononline.com/index.php/Attachment/24674-Ekran-G%C3%B6r%C3%BCnt%C3%BCs%C3%BC-65-png/?thumbnail=1)
+- Below are the images showing how to create the .txt file
+![famelog](https://forum.albiononline.com/index.php/Attachment/24672-Ekran-G%C3%B6r%C3%BCnt%C3%BCs%C3%BC-61-png/?thumbnail=1)
+![depositlog](https://forum.albiononline.com/index.php/Attachment/24673-Ekran-G%C3%B6r%C3%BCnt%C3%BCs%C3%BC-62-png/?thumbnail=1)
+![txtfile](https://forum.albiononline.com/index.php/Attachment/24671-Ekran-G%C3%B6r%C3%BCnt%C3%BCs%C3%BC-64-png/?thumbnail=1)
+
+## License
+
+See [License](https://github.com/MuratKaracaa/melis/blob/main/LICENSE) for permissions and limitations.
