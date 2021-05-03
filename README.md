@@ -4,7 +4,7 @@
 
 [![invitation](https://cdn2.iconfinder.com/data/icons/gaming-platforms-squircle/250/discord_squircle-128.png)](https://discord.com/api/oauth2/authorize?client_id=795330342856818719&permissions=2148005952&scope=bot) 
 
-Melis is here to do what you want done fast.
+Melis is here to help you with finding the prices for items and checking if people paid their gathering taxes. Soon, she will help you with finding teams/members for HCE as well.
 
 ![Price](https://forum.albiononline.com/index.php/Attachment/24667-Ekran-G%C3%B6r%C3%BCnt%C3%BCs%C3%BC-57-png/) 
 
