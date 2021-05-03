@@ -1,5 +1,5 @@
 
-# Melis - Albion Assistant
+# Melis - Albion Discord Bot/Assistant
 
 
 [![invitation](https://cdn2.iconfinder.com/data/icons/gaming-platforms-squircle/250/discord_squircle-128.png)](https://discord.com/api/oauth2/authorize?client_id=795330342856818719&permissions=2148005952&scope=bot) 
